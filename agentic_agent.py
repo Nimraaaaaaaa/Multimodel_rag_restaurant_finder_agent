@@ -3,14 +3,10 @@ from groq import Groq
 from scraper import scrape_tripadvisor_search
 
 # Initialize Groq client
-api_key = "Api_KEY"
+api_key = "API_KEY"
 llm_client = Groq(api_key=api_key)
 
-# Tools
-def tool_scrape(query):
-    return scrape_tripadvisor_search(query)
-
-# Wrapper for Groq — handles chat completions
+# Groq Model Wrapper
 class GroqModelWrapper:
     def __init__(self, client, model_id: str):
         self.client = client
@@ -23,31 +19,42 @@ class GroqModelWrapper:
         )
         return resp.choices[0].message.content
 
-# Use wrapper with your desired Groq model
 llm = GroqModelWrapper(llm_client, "meta-llama/llama-4-scout-17b-16e-instruct")
 
-# Short-term memory list (last 5 chats)
+# Chat memory
 chat_memory = []
 
-def run_agent(user_text, image_path=None):
-    # Add current input to memory
+def run_agent(user_text, image_path=None, preferred_city=None):
+    """
+    Main agent function that combines LLM and scraping
+    """
+    # Add to memory
     chat_memory.append(user_text)
     if len(chat_memory) > 5:
         chat_memory.pop(0)
 
-    # Build prompt including recent chat history
-    prompt = "Recent chats:\n"
-    for msg in chat_memory:
-        prompt += f"- {msg}\n"
-    prompt += f"\nUser wants: {user_text}. Find best restaurants, use scraping if needed. Ignore all explanations. Only list restaurant names, addresses, and ratings. Do not mention Yelp or other platforms."
+    # Build prompt
+    prompt = f"""You are a restaurant recommendation assistant for Pakistan.
 
-    # Run LLM directly instead of AGNO
-    
-    output = llm(prompt)
+Recent conversation:
+{chr(10).join(f"- {msg}" for msg in chat_memory)}
 
-    # Optionally use scraping tool if needed
-    if "scrape" in user_text.lower():
-        output += "\n\nScrape result:\n" + tool_scrape(user_text)
+Current request: "{user_text}"
+City: {preferred_city}
 
-    return output
+Task: Provide a brief, friendly recommendation (2-3 sentences) about what restaurants to look for based on the user's request. Be specific and helpful.
 
+Do NOT list restaurants - just give guidance on what to look for."""
+
+    print(f"\n🤖 Asking LLM for recommendations...")
+    llm_output = llm(prompt)
+    print(f"✅ LLM Response: {llm_output[:100]}...")
+
+    # Scrape TripAdvisor
+    print(f"\n🔍 Scraping TripAdvisor for: {user_text} in {preferred_city}")
+    scraped_data = scrape_tripadvisor_search(user_text, preferred_city=preferred_city)
+
+    return {
+        "llm_output": llm_output,
+        "scraped_data": scraped_data
+    }
