@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+streamlit
+pillow
+torch
+torchvision
+sentence-transformers
+faiss-cpu
+requests
+beautifulsoup4
+pandas
+python-multipart
+transformers
+accelerate
+agno
