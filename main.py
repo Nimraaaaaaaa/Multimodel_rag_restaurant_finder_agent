@@ -1,16 +1,20 @@
-import streamlit as st
-import requests
+from fastapi import FastAPI, UploadFile, Form
+from agentic_agent import run_agent   # <-- yahan se proper import
 
-st.title("Restaurant Finder")
+app = FastAPI()
 
-uploaded_file = st.file_uploader("Upload dish image", type=["jpg","png"])
-text_input = st.text_input("Enter your preferences")
+@app.post("/recommend")
+async def recommend(file: UploadFile = None, text: str = Form(...)):
+    image_path = None
 
-if st.button("Find Restaurants") and uploaded_file and text_input:
-    path = f"temp_{uploaded_file.name}"
-    with open(path, "wb") as f:
-        f.write(uploaded_file.getvalue())
-    files = {"file": open(path,"rb")}
-    data = {"text": text_input}
-    response = requests.post("http://127.0.0.1:8000/recommend", files=files, data=data)
-    st.write(response.json()['recommendations'])
+    # If user uploaded image
+    if file:
+        image_path = f"temp_{file.filename}"
+        with open(image_path, "wb") as f:
+            f.write(await file.read())
+
+    # Call your agent function
+    result = run_agent(text, image_path)
+
+    return {"response": result}
+
