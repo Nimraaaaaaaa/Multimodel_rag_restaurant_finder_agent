@@ -47,6 +47,7 @@ An AI-powered restaurant recommendation system for Pakistan that uses **Groq LLM
             │  Response        │
             └──────────────────┘
 ```
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5df7b55d-9843-4417-b37d-396dab38810f" />
 
 ## 📋 Prerequisites
 
