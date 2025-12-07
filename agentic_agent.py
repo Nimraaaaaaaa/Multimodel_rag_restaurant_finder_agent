@@ -1,6 +1,6 @@
 import os
 from groq import Groq
-from scraper import scrape_tripadvisor
+from scraper import scrape_tripadvisor_search
 
 # Initialize Groq client
 api_key = "Api_KEY"
@@ -8,7 +8,7 @@ llm_client = Groq(api_key=api_key)
 
 # Tools
 def tool_scrape(query):
-    return scrape_tripadvisor(query)
+    return scrape_tripadvisor_search(query)
 
 # Wrapper for Groq — handles chat completions
 class GroqModelWrapper:
@@ -50,3 +50,4 @@ def run_agent(user_text, image_path=None):
         output += "\n\nScrape result:\n" + tool_scrape(user_text)
 
     return output
+
