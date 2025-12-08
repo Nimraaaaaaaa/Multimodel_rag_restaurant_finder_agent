@@ -252,51 +252,12 @@ restaurant-finder-agent/
 
 Get restaurant recommendations based on user preferences.
 
-**Request Format:**
-```http
-POST /recommend HTTP/1.1
-Host: localhost:8000
-Content-Type: multipart/form-data
-
-text=best biryani
-city=lahore
-file=<optional_image.jpg>
-```
-
-**Success Response (200 OK):**
-```json
-{
-  "llm_output": "For the best biryani in Lahore, you should look for restaurants in areas like Lakshmi Chowk, Food Street, or Gulberg. Traditional spots often have the most authentic flavors. Look for places with good reviews for their spices and rice quality.",
-  "scraped_data": [
-    {
-      "name": "Butt Karahi",
-      "location": "Lakshmi Chowk, Lahore",
-      "rating": "⭐ 4.5/5 (1,234 reviews)",
-      "city": "lahore",
-      "url": "https://www.tripadvisor.com/Restaurant_Review-...",
-      "description": "Famous for traditional biryani and karahi. Located in the heart of old Lahore with authentic Mughlai cuisine..."
-    }
-  ]
-}
-```
-
-**Error Response (500 Internal Server Error):**
-```json
-{
-  "error": "Agent failed: Connection timeout"
-}
-```
-
 ### Endpoint: `GET /`
 
 Health check endpoint.
 
 **Response:**
 ```json
-{
-  "status": "ok",
-  "message": "Restaurant Finder API"
-}
 ```
 
 ## ⚙️ Configuration
@@ -339,16 +300,6 @@ Change `5` to adjust memory size (higher = more context but slower).
 ### Search Results Configuration
 
 **Results per City** (`scraper.py`, line 17):
-```python
-params = {
-    "engine": "google",
-    "q": search_query,
-    "api_key": SERP_API_KEY,
-    "num": 10,  # Change this to get more/fewer results
-    "gl": "pk",
-    "hl": "en"
-}
-```
 
 ## 🐛 Troubleshooting
 
@@ -454,20 +405,8 @@ Already configured for local development with hot-reload.
 
 ### Production Deployment Options
 
-**Option 1: Docker (Recommended)**
-```dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 8000 8501
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & streamlit run app.py --server.port 8501"]
-```
+**Option: Heroku**
 
-**Option 2: Heroku**
-- Add `Procfile`:
-  ```
   web: uvicorn main:app --host 0.0.0.0 --port $PORT
   ```
 
@@ -483,41 +422,6 @@ PORT=8000
 HOST=0.0.0.0
 ```
 
-## 🤝 Contributing
-
-Contributions make the open-source community amazing! Any contributions you make are **greatly appreciated**.
-
-### How to Contribute
-
-1. **Fork the Project**
-   ```bash
-   # Click the "Fork" button on GitHub
-   ```
-
-2. **Create Feature Branch**
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-
-3. **Make Changes**
-   - Add your feature
-   - Test thoroughly
-   - Update documentation
-
-4. **Commit Changes**
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-
-5. **Push to Branch**
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-
-6. **Open Pull Request**
-   - Go to GitHub
-   - Click "New Pull Request"
-   - Describe your changes
 
 ### Contribution Ideas
 
@@ -532,23 +436,10 @@ Contributions make the open-source community amazing! Any contributions you make
 - [ ] Add favorite restaurants feature
 - [ ] Multi-language support (Urdu, English)
 
-## 📝 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2025 Restaurant Finder Agent
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software...
+..
 ```
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 Special thanks to:
 
@@ -562,10 +453,9 @@ Special thanks to:
 
 ## 📧 Contact & Support
 
-**Developer:** Your Name  
-**Email:** your.email@example.com  
-**Twitter:** [@yourhandle](https://twitter.com/yourhandle)  
-**LinkedIn:** [Your Profile](https://linkedin.com/in/yourprofile)
+**Developer:** Nimra
+**Email:** nimraaishere@gmail.com  
+
 
 **Project Repository:** [https://github.com/yourusername/restaurant-finder-agent](https://github.com/yourusername/restaurant-finder-agent)
 
