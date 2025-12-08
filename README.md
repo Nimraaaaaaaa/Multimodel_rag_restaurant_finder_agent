@@ -301,65 +301,6 @@ Change `5` to adjust memory size (higher = more context but slower).
 
 **Results per City** (`scraper.py`, line 17):
 
-## 🐛 Troubleshooting
-
-### Common Issues and Solutions
-
-#### Issue 1: "Cannot connect to backend"
-**Symptoms:** Red error in Streamlit "🔌 Cannot connect to backend!"
-
-**Solutions:**
-1. Check if FastAPI is running:
-   ```bash
-   uvicorn main:app --reload --port 8000
-   ```
-2. Verify port 8000 is not in use:
-   ```bash
-   # Windows
-   netstat -ano | findstr :8000
-   
-   # Mac/Linux
-   lsof -i :8000
-   ```
-3. Check firewall settings
-
-#### Issue 2: "500 Internal Server Error"
-**Symptoms:** Request fails with 500 error code
-
-**Solutions:**
-1. Check FastAPI terminal for detailed error logs
-2. Verify API keys are correct
-3. Ensure all dependencies are installed:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-#### Issue 3: "No restaurants found"
-**Symptoms:** Empty results or "⚠️ No restaurants found"
-
-**Solutions:**
-1. Try more specific search terms (e.g., "biryani Gulberg" instead of just "food")
-2. Check if SerpAPI key is valid and has quota remaining
-3. Verify internet connection
-4. Try a different city
-
-#### Issue 4: "Permission Error (Windows)"
-**Symptoms:** `PermissionError: [WinError 32]`
-
-**Solutions:**
-1. Restart the FastAPI server
-2. Close any programs that might have the temp image file open
-3. The app will continue working; temp files will be cleaned up later
-
-#### Issue 5: "ModuleNotFoundError"
-**Symptoms:** Import errors when starting the app
-
-**Solutions:**
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt --force-reinstall
-```
-
 ### Debug Mode
 
 Enable detailed logging by checking the terminal outputs:
@@ -372,11 +313,6 @@ Enable detailed logging by checking the terminal outputs:
 ✅ LLM Response: For best biryani...
 🔍 Scraping TripAdvisor for: best biryani in lahore
   ✅ Found 10 results for lahore
-```
-
-**Streamlit Terminal:**
-```
-INFO:     127.0.0.1:52507 - "POST /recommend HTTP/1.1" 200 OK
 ```
 
 ## 📦 Dependencies
@@ -397,32 +333,6 @@ Install all at once:
 ```bash
 pip install -r requirements.txt
 ```
-
-## 🚀 Deployment
-
-### Local Deployment (Current Setup)
-Already configured for local development with hot-reload.
-
-### Production Deployment Options
-
-**Option: Heroku**
-
-  web: uvicorn main:app --host 0.0.0.0 --port $PORT
-  ```
-
-**Option 3: AWS/GCP/Azure**
-- Deploy FastAPI on EC2/Compute Engine
-- Host Streamlit separately or use Streamlit Cloud
-
-### Environment Variables for Production
-```bash
-GROQ_API_KEY=your_groq_key
-SERP_API_KEY=your_serp_key
-PORT=8000
-HOST=0.0.0.0
-```
-
-
 ### Contribution Ideas
 
 - [ ] Add more cities (Peshawar, Multan, etc.)
@@ -439,47 +349,9 @@ HOST=0.0.0.0
 ..
 ```
 
-##  Acknowledgments
-
-Special thanks to:
-
-- **[Groq](https://groq.com)** - For providing ultra-fast LLM inference infrastructure and free API access
-- **[Meta AI](https://ai.meta.com)** - For the incredible Llama 4 Scout language model
-- **[SerpAPI](https://serpapi.com)** - For reliable Google Search API and generous free tier
-- **[TripAdvisor](https://tripadvisor.com)** - For comprehensive restaurant data and reviews
-- **[Streamlit](https://streamlit.io)** - For the amazing UI framework that makes Python web apps easy
-- **[FastAPI](https://fastapi.tiangolo.com)** - For the modern, high-performance web framework
-- **Open Source Community** - For all the incredible tools and libraries
-
 ## 📧 Contact & Support
 
 **Developer:** Nimra
 **Email:** nimraaishere@gmail.com  
 
 
-**Project Repository:** [https://github.com/yourusername/restaurant-finder-agent](https://github.com/yourusername/restaurant-finder-agent)
-
-### Get Help
-
-- 🐛 **Bug Reports:** [Open an Issue](https://github.com/yourusername/restaurant-finder-agent/issues)
-- 💡 **Feature Requests:** [Discussions](https://github.com/yourusername/restaurant-finder-agent/discussions)
-- 📧 **Email Support:** your.email@example.com
-
-## 🌟 Show Your Support
-
-If you found this project helpful or interesting:
-
-⭐ **Give it a star on GitHub!**  
-🔄 **Share it with others!**  
-🐛 **Report bugs or suggest features!**  
-💻 **Contribute code!**
-
----
-
-<div align="center">
-
-**Made with ❤️ in Pakistan 🇵🇰**
-
-[Report Bug](https://github.com/yourusername/restaurant-finder-agent/issues) · [Request Feature](https://github.com/yourusername/restaurant-finder-agent/issues) · [Documentation](https://github.com/yourusername/restaurant-finder-agent/wiki)
-
-</div>
